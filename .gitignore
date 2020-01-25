@@ -129,7 +129,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-.histogramer.log
-.histogramer.log1
+
+# PyCharm files
 .idea/
 .DS_Store
+
+# Application log files
+/histogramer/.histogramer
+/histogramer/.histogramer.1
+

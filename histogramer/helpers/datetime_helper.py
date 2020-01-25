@@ -1,9 +1,10 @@
 """
 helps to work with datetime
 """
+from datetime import timedelta
 
 
-def convert_datetime_to_str(value):
+def datetime_to_str(value):
     """
     convert datetime object to formatted string
     :param value: datetime object
@@ -12,11 +13,12 @@ def convert_datetime_to_str(value):
     return value.isoformat(sep=" ", timespec="milliseconds")
 
 
-def get_duration(start_time, end_time):
+def get_duration(start, end):
     """
     get event duration
-    :param start_time: datetime when an event started
-    :param end_time: datetime when an event finished
+    :param start: datetime when an event started
+    :param end: datetime when an event finished
     :return: time period as formatted string
     """
-    return str(end_time - start_time)[:-3]
+    return round(number=timedelta.total_seconds(end - start),
+                 ndigits=3)
