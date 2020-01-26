@@ -14,6 +14,7 @@ pip install --upgrade path_to_wheel.whl
 
 #### From sources
 ```
+rm -r build dist (macOs, Linux) or RMDIR /Q/S build dist (Windows)
 python setup.py bdist_wheel
 pip install --upgrade dist/*.whl
 ```
