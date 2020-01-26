@@ -83,15 +83,14 @@ def prepare_data(root_path, extension):
     :param extension: found files will be filtered by extension
     :return: words count list
     """
-    start_time = datetime.utcnow()
-    message = f"[{datetime_to_str(start_time)}] Preparing data..."
-    with Halo(text=message) as spinner:
-        logging.info(msg=message)
-
+    with Halo("Preparing data...") as spinner:
         files_counter = 0
+        start_time = datetime.utcnow()
+
         for file in Path(root_path).rglob(pattern=extension):
             count_words(file)
             files_counter += 1
+            spinner.text = f"{files_counter} files processed"
 
         end_time = datetime.utcnow()
         spinner.succeed(f"[{datetime_to_str(value=end_time)}] "
