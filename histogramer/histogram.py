@@ -83,15 +83,14 @@ def prepare_data(root_path, extension):
     :param extension: found files will be filtered by extension
     :return: words count list
     """
-    start_time = datetime.utcnow()
-    message = f"[{datetime_to_str(start_time)}] Preparing data..."
-    with Halo(text=message) as spinner:
-        logging.info(msg=message)
-
+    with Halo("Preparing data...") as spinner:
         files_counter = 0
+        start_time = datetime.utcnow()
+
         for file in Path(root_path).rglob(pattern=extension):
             count_words(file)
             files_counter += 1
+            spinner.text = f"{files_counter} files processed"
 
         end_time = datetime.utcnow()
         spinner.succeed(f"[{datetime_to_str(value=end_time)}] "
@@ -111,17 +110,20 @@ def show_histogram():
         logging.info(msg=message)
 
         # Draw Plot
-        plt.figure("histogramer", facecolor=(0, 0, 0), figsize=(11, 8), dpi=87)
+        plt.figure("histogramer",
+                   dpi=80,
+                   facecolor=(0, 0, 0),
+                   figsize=(16, 10))
         plt.style.use(style="dark_background")
         # Decoration
-        plt.xlabel(xlabel="words count")
-        plt.ylabel(ylabel="files count")
-        plt.title(fontweight="bold", label="Words Count Chart")
-        plt.hist(alpha=0.75,
-                 facecolor="orange",
-                 rwidth=0.8,
+        plt.xlabel(xlabel="Words Count")
+        plt.ylabel(ylabel="Files Count")
+        plt.title(label="Bar Chart for Files Words Count", fontsize=22)
+
+        plt.hist(facecolor="orange",
+                 rwidth=0.7,
                  x=WORDS_COUNT)
-        plt.grid()
+        plt.xticks(rotation=45)
         plt.yscale(value="log")
         plt.tight_layout()
 
