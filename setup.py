@@ -8,7 +8,7 @@ with open("README.md") as fh:
 
 setuptools.setup(
         name="histogramer",
-        version="1.0.0",
+        version="1.0.2",
         author="Petr Komissarov",
         author_email="pkomissarov@griddynamics.com",
         description="Tool for histogram building by words count in files",
