@@ -70,7 +70,7 @@ def count_words(file):
         logging.info("[%s] Successfully processed '%s'",
                      datetime_to_str(value=datetime.utcnow()), file)
     except (IOError, UnicodeDecodeError) as exception:
-        logging.warning("Can't read a file '%s'. Error message: %s",
+        logging.warning("Can't read '%s'. Error: %s",
                         file, exception)
 
 
