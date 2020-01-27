@@ -67,10 +67,10 @@ def count_words(file):
     """
     try:
         WORDS_COUNT.append(len(file.read_text().split()))
-        logging.info("[%s] Successfully processed '{%s}'",
+        logging.info("[%s] Successfully processed '%s'",
                      datetime_to_str(value=datetime.utcnow()), file)
     except (IOError, UnicodeDecodeError) as exception:
-        logging.warning("Can't read a file '%s'. Error message: %s",
+        logging.warning("Can't read '%s'. Error: %s",
                         file, exception)
 
 
@@ -107,15 +107,11 @@ def show_histogram():
     start_time = datetime.utcnow()
     message = f"[{datetime_to_str(value=start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
-        logging.info(msg=message)
-
-        # Draw Plot
         plt.figure("histogramer",
                    dpi=80,
                    facecolor=(0, 0, 0),
                    figsize=(16, 10))
         plt.style.use(style="dark_background")
-        # Decoration
         plt.xlabel(xlabel="Words Count")
         plt.ylabel(ylabel="Files Count")
         plt.title(label="Bar Chart for Files Words Count", fontsize=22)
@@ -132,7 +128,7 @@ def show_histogram():
                         "Histogram was built successfully for "
                         f"{get_duration(start=start_time, end=end_time)} "
                         f"seconds.")
-
+        logging.info(msg="Histogram was built successfully")
         plt.show()
 
 
