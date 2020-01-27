@@ -110,17 +110,20 @@ def show_histogram():
         logging.info(msg=message)
 
         # Draw Plot
-        plt.figure("histogramer", facecolor=(0, 0, 0), figsize=(11, 8), dpi=87)
+        plt.figure("histogramer",
+                   dpi=80,
+                   facecolor=(0, 0, 0),
+                   figsize=(16, 10))
         plt.style.use(style="dark_background")
         # Decoration
-        plt.xlabel(xlabel="words count")
-        plt.ylabel(ylabel="files count")
-        plt.title(fontweight="bold", label="Words Count Chart")
-        plt.hist(alpha=0.75,
-                 facecolor="orange",
-                 rwidth=0.8,
+        plt.xlabel(xlabel="Words Count")
+        plt.ylabel(ylabel="Files Count")
+        plt.title(label="Bar Chart for Files Words Count", fontsize=22)
+
+        plt.hist(facecolor="orange",
+                 rwidth=0.7,
                  x=WORDS_COUNT)
-        plt.grid()
+        plt.xticks(rotation=45)
         plt.yscale(value="log")
         plt.tight_layout()
 
