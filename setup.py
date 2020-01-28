@@ -11,7 +11,7 @@ with open("requirements.txt") as req_file:
 
 setuptools.setup(
         name="histogramer",
-        version="1.0.3",
+        version="1.0.4",
         author="Petr Komissarov",
         author_email="pkomissarov@griddynamics.com",
         description="Tool for histogram building by words count in files",
