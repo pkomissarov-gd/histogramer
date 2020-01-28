@@ -32,4 +32,4 @@ Please report any issues. Make sure to include `~/.histogramer` file,
 which contains a full log of *latest* runs.
 
 # Example
-![](histogramer/Images/histogram_example.png)
+![](Images/histogram_example.png)
