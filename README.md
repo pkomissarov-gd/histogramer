@@ -30,3 +30,6 @@ This tool was tested in python 3.6.8 virtual environment in Windows 10 and
 # Issues
 Please report any issues. Make sure to include `~/.histogramer` file, 
 which contains a full log of *latest* runs.
+
+# Example
+![](Images/histogram_example.png)

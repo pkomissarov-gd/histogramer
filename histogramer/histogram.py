@@ -9,6 +9,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import seaborn
 from halo import Halo
 
 from histogramer.helpers.async_helper import background
@@ -108,17 +109,17 @@ def show_histogram():
     message = f"[{datetime_to_str(value=start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
         plt.figure("histogramer",
-                   dpi=80,
+                   dpi=100,
                    facecolor=(0, 0, 0),
                    figsize=(16, 10))
         plt.style.use(style="dark_background")
         plt.xlabel(xlabel="Words Count")
         plt.ylabel(ylabel="Files Count")
         plt.title(label="Bar Chart for Files Words Count", fontsize=22)
-
-        plt.hist(facecolor="orange",
-                 rwidth=0.7,
-                 x=WORDS_COUNT)
+        seaborn.set()
+        seaborn.distplot(a=WORDS_COUNT, kde=False)
+        plt.grid(alpha=0.1, which="both", linestyle="--")
+        plt.grid(alpha=0.08, which="minor", linestyle="-.")
         plt.xticks(rotation=45)
         plt.yscale(value="log")
         plt.tight_layout()
