@@ -1,10 +1,15 @@
 """
-this is a module for a histogram building by the words count of text files
-were found in the path specified by user and it's sub folders
+Run histogramer
 """
-from histogramer.histogram import (get_arguments, init_logger, main)
+from histogramer.lib.helpers.log_helper import init_logger
+from histogramer.lib.histogram import (
+    get_arguments,
+    prepare_data,
+    show_histogram
+    )
 
 if __name__ == "__main__":
     ARGUMENTS = get_arguments()
-    init_logger(log_path=ARGUMENTS.log_path)
-    main(path=ARGUMENTS.path)
+    init_logger(path=ARGUMENTS.log)
+    WORDS_COUNT = prepare_data(path=ARGUMENTS.path, extension="*.txt")
+    show_histogram(WORDS_COUNT)

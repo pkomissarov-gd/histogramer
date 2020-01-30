@@ -1,16 +1,16 @@
 """
-helps to work with datetime
+helps to work with datetime objects
 """
 from datetime import timedelta
 
 
-def datetime_to_str(value):
+def datetime_to_str(datetime_obj):
     """
     convert datetime object to formatted string
-    :param value: datetime object
+    :param datetime_obj: datetime object
     :return: formatted string
     """
-    return value.isoformat(sep=" ", timespec="milliseconds")
+    return datetime_obj.isoformat(sep=" ", timespec="milliseconds")
 
 
 def get_duration(start, end):
