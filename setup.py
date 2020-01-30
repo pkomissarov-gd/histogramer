@@ -4,21 +4,13 @@ For package installation only
 import setuptools
 
 
-def get_readme():
+def read_file(file_name):
     """
-    get long dist description from README.md
-    :return: content of README.md file
+    get content of the file
+    :param file_name: name of the file
+    :return: content of the file
     """
-    with open("README.md") as file:
-        return file.read()
-
-
-def get_requirements(requirements_file):
-    """
-    get requirements for dist installation
-    :return: content of requirements_main.txt file
-    """
-    with open(requirements_file) as file:
+    with open(file_name) as file:
         return file.read()
 
 
@@ -31,10 +23,10 @@ setuptools.setup(
             "Programming Language :: Python :: 3.6.8",
             "Operating System :: OS Independent"],
         description="Tool for histogram building by words count in files",
-        install_requires=get_requirements("requirements_main.txt"),
-        long_description=get_readme(),
+        install_requires=read_file("requirements_main.txt"),
+        long_description=read_file("README.md"),
         long_description_content_type="text/markdown",
         packages=setuptools.find_packages(),
         python_requires=">=3.6.8",
-        tests_require=get_requirements("requirements_tests.txt"),
-        url="https://github.com/pkomissarov91/histogramer/")
+        tests_require=read_file("requirements_tests.txt"),
+        url="https://github.com/pkomissarov-gd/histogramer")
