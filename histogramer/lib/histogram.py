@@ -1,9 +1,7 @@
 """
 implementation of main functions for histogram building
 """
-import argparse
 import logging
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -20,48 +18,6 @@ from histogramer.lib.helpers.datetime_helper import (
 _WORDS_COUNT = []
 
 
-def dir_type(path):
-    """
-    validate that directory exists
-    :param path: directory which should exists
-    :return: path or NotADirectoryError if directory not exists
-    """
-    if os.path.isdir(path) or path == "0":
-        return path
-    raise NotADirectoryError(f"directory '{path}' not exists")
-
-
-def get_arguments():
-    """
-    parse arguments
-    :return: arguments
-    """
-    parser = argparse.ArgumentParser(description="please, provide root path "
-                                                 "in which (and it's sub "
-                                                 "folders) text files "
-                                                 "will be processed for "
-                                                 "histogram building")
-    parser.add_argument("-p", "--path",
-                        action="store",
-                        default="",
-                        dest="path",
-                        help="root path in which (and it's sub "
-                             "folders) text files will be processed",
-                        required=True,
-                        type=dir_type)
-    parser.add_argument("-l", "--log",
-                        action="store",
-                        default=os.path.dirname(
-                            sys.modules["__main__"].__file__),
-                        dest="log",
-                        help="path to store logs. Use '0' "
-                             "if you don't want to store them. "
-                             "Default value: ~/.logs/",
-                        required=False,
-                        type=dir_type)
-    return parser.parse_args()
-
-
 def _count_words(file):
     """
     add words count in a file to list
@@ -75,7 +31,7 @@ def _count_words(file):
         logging.warning("Can't read '%s'. Error: %s", file, exception)
 
 
-def prepare_data(path, extension):
+def process_data(path, extension):
     """
     calculate words count for each file (with specified extension) in that dir
     and it's sub folders
@@ -85,7 +41,7 @@ def prepare_data(path, extension):
     :return: list of numbers where each number equals words count
     in the file
     """
-    with Halo("Preparing data...") as spinner:
+    with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
 
         for file in Path(path).rglob(pattern=extension):
@@ -95,21 +51,21 @@ def prepare_data(path, extension):
         end_time = datetime.utcnow()
         spinner.succeed(f"[{datetime_to_str(datetime_obj=end_time)}] "
                         f"{len(_WORDS_COUNT)} files "
-                        "were successfully processed for"
+                        "successfully processed for"
                         f" {get_duration(start=start_time, end=end_time)} "
                         f"seconds.")
         return _WORDS_COUNT
 
 
-def show_histogram(words_count):
+def build_histogram(words_count):
     """
-    Show histogram for text files by words count
+    build a histogram using words count by text files
     :param words_count: list of numbers where each number equals words count
     in the file
     :return: None
     """
     if not words_count:
-        logging.warning("there is no data to build a histogram")
+        logging.warning("there is no data for a histogram building")
         sys.exit()
 
     start_time = datetime.utcnow()
@@ -134,8 +90,8 @@ def show_histogram(words_count):
 
         end_time = datetime.utcnow()
         spinner.succeed(f"[{datetime_to_str(datetime_obj=end_time)}] "
-                        "Histogram was built successfully for "
+                        "Histogram successfully built for "
                         f"{get_duration(start=start_time, end=end_time)} "
                         f"seconds.")
-        logging.info(msg="Histogram was built successfully")
+        logging.info(msg="Histogram successfully built")
         plt.show()
