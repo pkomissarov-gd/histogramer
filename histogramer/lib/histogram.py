@@ -9,6 +9,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn
 from halo import Halo
+from multiprocessing_generator import ParallelGenerator
 
 from histogramer.lib.helpers.datetime_helper import (
     datetime_to_str,
@@ -43,12 +44,12 @@ def process_data(path, extension):
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
-
-        for file in Path(path).rglob(pattern=extension):
-            _count_words(file)
-            spinner.text = f"{len(_WORDS_COUNT)} files processed"
-
+        with ParallelGenerator(Path(path).rglob(pattern=extension)) as p_gen:
+            for file in p_gen:
+                _count_words(file)
+                spinner.text = f"{len(_WORDS_COUNT)} files processed"
         end_time = datetime.utcnow()
+
         spinner.succeed(f"[{datetime_to_str(datetime_obj=end_time)}] "
                         f"{len(_WORDS_COUNT)} files "
                         "successfully processed for"
