@@ -3,7 +3,6 @@ helps to work with argument parser
 """
 import argparse
 import os
-import sys
 
 
 def dir_type(path):
@@ -17,17 +16,19 @@ def dir_type(path):
     raise NotADirectoryError(f"directory '{path}' not exists")
 
 
-def get_arguments():
+def get_arguments(raw_args=None):
     """
     parse arguments
-    :return: arguments
+    :param raw_args: arguments for arg parser
+    :return: parsed arguments
     """
-    parser = argparse.ArgumentParser(description="please, provide root path "
-                                                 "in which (and it's sub "
+    parser = argparse.ArgumentParser(description="please, provide root path"
+                                                 " in which (and it's sub "
                                                  "folders) text files "
                                                  "will be processed for "
                                                  "histogram building")
-    parser.add_argument("-p", "--path",
+    parser.add_argument("-p",
+                        metavar="--path",
                         action="store",
                         default="",
                         dest="path",
@@ -35,14 +36,14 @@ def get_arguments():
                              "folders) text files will be processed",
                         required=True,
                         type=dir_type)
-    parser.add_argument("-l", "--log",
+    parser.add_argument("-l",
+                        metavar="--log",
                         action="store",
-                        default=os.path.dirname(
-                            sys.modules["__main__"].__file__),
+                        default=os.getcwd(),
                         dest="log",
                         help="path to store logs. Use '0' "
                              "if you don't want to store them. "
                              "Default value: ~/.logs/",
                         required=False,
                         type=dir_type)
-    return parser.parse_args()
+    return parser.parse_args(raw_args)
