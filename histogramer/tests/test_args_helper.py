@@ -2,6 +2,7 @@
 tests for args_helper module
 """
 import os
+import sys
 
 import pytest
 
@@ -57,14 +58,19 @@ def test_get_arguments_invalid_log():
         assert get_arguments(args)
 
 
+
 @pytest.mark.args_helper
 def test_get_arguments_no_arguments():
     """
     Invoke get_arguments function without arguments
     :return: None
     """
-    with pytest.raises(SystemExit):
-        get_arguments()
+    try:
+        sys.stderr = open(os.devnull, "w")
+        with pytest.raises(SystemExit):
+            get_arguments()
+    finally:
+        sys.stderr = sys.__stderr__
 
 
 @pytest.mark.args_helper
