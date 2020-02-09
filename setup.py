@@ -20,13 +20,13 @@ setuptools.setup(
         author="Petr Komissarov",
         author_email="pkomissarov@griddynamics.com",
         classifiers=[
-            "Programming Language :: Python :: 3.6.8",
+            "Programming Language :: Python :: 3",
             "Operating System :: OS Independent"],
         description="Tool for histogram building by words count in files",
         install_requires=read_file("requirements_main.txt"),
         long_description=read_file("README.md"),
         long_description_content_type="text/markdown",
         packages=setuptools.find_packages(),
-        python_requires=">=3.6.8",
+        python_requires=">=3",
         tests_require=read_file("requirements_tests.txt"),
         url="https://github.com/pkomissarov-gd/histogramer")

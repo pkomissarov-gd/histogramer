@@ -13,7 +13,7 @@ def dir_type(path):
     """
     if os.path.isdir(path) or path == "0":
         return path
-    raise NotADirectoryError(f"directory '{path}' not exists")
+    raise NotADirectoryError("directory '{0}' not exists".format(path))
 
 
 def get_arguments(raw_args=None):

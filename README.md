@@ -1,5 +1,5 @@
 # Compatibility #
-Histogramer has tested using `python 3.6.8` virtual environment in:
+Histogramer has tested using `python 3` virtual environment in:
    * Windows 10 OS
    * macOS Catalina
 

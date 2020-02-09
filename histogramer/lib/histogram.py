@@ -9,7 +9,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn
 from halo import Halo
-from multiprocessing_generator import ParallelGenerator
 
 from histogramer.lib.helpers.datetime_helper import (
     datetime_to_str,
@@ -44,17 +43,16 @@ def process_data(path, extension):
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
-        with ParallelGenerator(Path(path).rglob(pattern=extension)) as p_gen:
-            for file in p_gen:
-                _count_words(file)
-                spinner.text = f"{len(_WORDS_COUNT)} files processed"
+        for file in Path(path).rglob(pattern=extension):
+            _count_words(file)
+            spinner.text = "{0} files processed".format(len(_WORDS_COUNT))
         end_time = datetime.utcnow()
 
-        spinner.succeed(f"[{datetime_to_str(datetime_obj=end_time)}] "
-                        f"{len(_WORDS_COUNT)} files "
-                        "successfully processed for"
-                        f" {get_duration(start=start_time, end=end_time)} "
-                        f"seconds.")
+        spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
+                        + "{0} files ".format(len(_WORDS_COUNT))
+                        + "successfully processed for"
+                        + " {0} ".format(get_duration(start_time, end_time))
+                        + "seconds.")
         return _WORDS_COUNT
 
 
@@ -70,8 +68,8 @@ def build_histogram(words_count):
         sys.exit()
 
     start_time = datetime.utcnow()
-    message = f"[{datetime_to_str(datetime_obj=start_time)}] " \
-              "Building histogram..."
+    message = "[{0}] ".format(datetime_to_str(start_time)) \
+              + "Building histogram..."
     with Halo(text=message) as spinner:
         plt.figure("histogramer",
                    dpi=100,
@@ -90,9 +88,9 @@ def build_histogram(words_count):
         plt.tight_layout()
 
         end_time = datetime.utcnow()
-        spinner.succeed(f"[{datetime_to_str(datetime_obj=end_time)}] "
-                        "Histogram successfully built for "
-                        f"{get_duration(start=start_time, end=end_time)} "
-                        f"seconds.")
+        spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
+                        + "Histogram successfully built for "
+                        "{0} ".format(get_duration(start_time, end_time))
+                        + "seconds.")
         logging.info(msg="Histogram successfully built")
         plt.show()
