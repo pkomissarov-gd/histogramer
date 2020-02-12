@@ -17,10 +17,11 @@ from histogramer.lib.helpers.datetime_helper import (
 )
 
 
-async def _count_words(file):
+async def _count_words(file, spinner):
     """
     Count words number in the file.
     :param file: Path to the file which will be processed.
+    :param spinner: Console spinner for processed files count showing.
     :return: Words count in the current file.
     """
     try:
@@ -30,6 +31,9 @@ async def _count_words(file):
         return words_count
     except (IOError, UnicodeDecodeError) as exception:
         logging.warning("Can't read '%s'. Error: %s", file, exception)
+    finally:
+        spinner.text = "{0} files processed".format(len(
+            [task for task in asyncio.Task.all_tasks() if task.done()]) + 1)
 
 
 def process_data(extension, path):
@@ -45,11 +49,10 @@ def process_data(extension, path):
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
         loop = asyncio.get_event_loop()
-        tasks = (loop.create_task(_count_words(file))
-                 for file in Path(path).rglob(extension))
+        tasks = [loop.create_task(_count_words(file, spinner))
+                 for file in Path(path).rglob(extension)]
         words_count = loop.run_until_complete(asyncio.gather(*tasks))
         loop.close()
-
         end_time = datetime.utcnow()
         spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
                         + "{0} files ".format(len(words_count))
