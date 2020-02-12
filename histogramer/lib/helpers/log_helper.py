@@ -1,17 +1,17 @@
 """
-helps to work with console & file logger
+Helps to work with console & file logger.
 """
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 
-def init_logger(path, folder_name=".logs"):
+def init_logger(folder_name, path):
     """
-    configure logger for logging events in console (and in a file, optional)
-    :param folder_name: name of the folder where logs will be stored
-    :param path: path to the log folder
-    :return: None
+    Configure logger for logging events in console (and in a file, optional).
+    :param folder_name: Name of the folder where logs will be stored.
+    :param path: Path to the log folder.
+    :return: None.
     """
     log_formatter = logging.Formatter("[%(asctime)s] "
                                       "[%(threadName)s] "

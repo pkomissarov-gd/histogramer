@@ -1,3 +1,3 @@
 """
-Init for 'lib' python package
+Init for 'lib' python package.
 """

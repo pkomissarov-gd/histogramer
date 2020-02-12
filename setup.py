@@ -1,14 +1,14 @@
 """
-For package installation only
+For package installation only.
 """
 import setuptools
 
 
 def read_file(file_name):
     """
-    get content of the file
-    :param file_name: name of the file
-    :return: content of the file
+    Get content of the file.
+    :param file_name: Name of the file.
+    :return: Content of the file.
     """
     with open(file_name) as file:
         return file.read()

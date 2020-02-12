@@ -1,5 +1,5 @@
 """
-implementation of main functions for histogram building
+Implementation of main functions for histogram building.
 """
 import logging
 import sys
@@ -20,8 +20,9 @@ _WORDS_COUNT = []
 
 def _count_words(file):
     """
-    add words count in a file to list
-    :param file: path to the file which will be processed
+    Add words count in a file to list.
+    :param file: Path to the file which will be processed.
+    :return: None.
     """
     try:
         _WORDS_COUNT.append(len(file.read_text().split()))
@@ -31,15 +32,15 @@ def _count_words(file):
         logging.warning("Can't read '%s'. Error: %s", file, exception)
 
 
-def process_data(path, extension):
+def process_data(extension, path):
     """
-    calculate words count for each file (with specified extension) in that dir
-    and it's sub folders
-    :param path: root directory in which (and it's sub folders) files will
-    be processed
-    :param extension: only files with such extension will be processed
-    :return: list of numbers where each number equals words count
-    in the file
+    Calculate words count for each file (with specified extension) in that dir
+    and it's sub folders.
+    :param extension: Only files with such extension will be processed.
+    :param path: Root directory in which (and it's sub folders) files will
+    be processed.
+    :return: List of numbers where each number equals words count
+    in the file.
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
@@ -58,10 +59,10 @@ def process_data(path, extension):
 
 def build_histogram(words_count):
     """
-    build a histogram using words count by text files
-    :param words_count: list of numbers where each number equals words count
-    in the file
-    :return: None
+    Build a histogram using words count by text files.
+    :param words_count: List of numbers where each number equals words count
+    in the file.
+    :return: None.
     """
     if not words_count:
         logging.warning("there is no data for a histogram building")

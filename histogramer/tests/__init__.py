@@ -1,3 +1,3 @@
 """
-Init for 'tests' python package
+Init for 'tests' python package.
 """

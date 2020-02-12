@@ -1,3 +1,3 @@
 """
-Init for 'helpers' python package
+Init for 'helpers' python package.
 """

@@ -1,3 +1,3 @@
 """
-Init for 'histogramer' python package
+Init for 'histogramer' python package.
 """
