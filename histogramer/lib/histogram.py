@@ -1,11 +1,10 @@
 """
 Implementation of main functions for histogram building.
 """
+import asyncio
 import logging
-import multiprocessing
 import sys
 from datetime import datetime
-from multiprocessing.pool import Pool
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -18,7 +17,7 @@ from histogramer.lib.helpers.datetime_helper import (
 )
 
 
-def _count_words(file):
+async def _count_words(file):
     """
     Count words number in the file.
     :param file: Path to the file which will be processed.
@@ -45,15 +44,12 @@ def process_data(extension, path):
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
-        with Pool(multiprocessing.cpu_count()) as pool:
-            words_count = []
-            for result in pool.imap_unordered(_count_words,
-                                              (file for file
-                                               in Path(path).rglob(extension))):
-                words_count.append(result)
-                spinner.text = "{0} files processed".format(len(words_count))
-            pool.close()
-            pool.join()
+        loop = asyncio.get_event_loop()
+        tasks = (loop.create_task(_count_words(file))
+                 for file in Path(path).rglob(extension))
+        words_count = loop.run_until_complete(asyncio.gather(*tasks))
+        loop.close()
+
         end_time = datetime.utcnow()
         spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
                         + "{0} files ".format(len(words_count))

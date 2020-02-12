@@ -30,15 +30,14 @@ def init_logger(folder_name, path):
     if path != "0":
         path = "{0}/{1}/".format(path, folder_name)
         file_name = "{0}.histogramer".format(path)
-        if os.path.isdir(path) and Path(file_name).stat().st_size >= 10485760:
+        if os.path.isdir(file_name) and \
+                Path(file_name).stat().st_size >= 10 * (1024 ** 2):  # 10 mb
             # remove logs if they exist and log file size > 10 mb
             shutil.rmtree(path, ignore_errors=True)
         # create folder for file logs if not exists
         Path(path).mkdir(parents=True, exist_ok=True)
 
-        rotating_file_handler = RotatingFileHandler(
-            filename=file_name,
-            backupCount=0)
+        rotating_file_handler = RotatingFileHandler(filename=file_name)
         rotating_file_handler.setFormatter(fmt=log_formatter)
         rotating_file_handler.setLevel(level=logging.INFO)
         logger.addHandler(hdlr=rotating_file_handler)
