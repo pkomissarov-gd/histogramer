@@ -2,8 +2,10 @@
 Implementation of main functions for histogram building.
 """
 import logging
+import multiprocessing
 import sys
 from datetime import datetime
+from multiprocessing.pool import Pool
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -13,21 +15,20 @@ from halo import Halo
 from histogramer.lib.helpers.datetime_helper import (
     datetime_to_str,
     get_duration
-    )
-
-_WORDS_COUNT = []
+)
 
 
 def _count_words(file):
     """
-    Add words count in a file to list.
+    Count words number in the file.
     :param file: Path to the file which will be processed.
-    :return: None.
+    :return: Words count in the current file.
     """
     try:
-        _WORDS_COUNT.append(len(file.read_text().split()))
+        words_count = len(file.read_text().split())
         logging.info("[%s] Successfully processed '%s'",
                      datetime_to_str(datetime_obj=datetime.utcnow()), file)
+        return words_count
     except (IOError, UnicodeDecodeError) as exception:
         logging.warning("Can't read '%s'. Error: %s", file, exception)
 
@@ -44,17 +45,22 @@ def process_data(extension, path):
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
-        for file in Path(path).rglob(pattern=extension):
-            _count_words(file)
-            spinner.text = "{0} files processed".format(len(_WORDS_COUNT))
+        with Pool(multiprocessing.cpu_count()) as pool:
+            words_count = []
+            for result in pool.imap_unordered(_count_words,
+                                              (file for file
+                                               in Path(path).rglob(extension))):
+                words_count.append(result)
+                spinner.text = "{0} files processed".format(len(words_count))
+            pool.close()
+            pool.join()
         end_time = datetime.utcnow()
-
         spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
-                        + "{0} files ".format(len(_WORDS_COUNT))
+                        + "{0} files ".format(len(words_count))
                         + "successfully processed for"
                         + " {0} ".format(get_duration(start_time, end_time))
                         + "seconds.")
-        return _WORDS_COUNT
+        return words_count
 
 
 def build_histogram(words_count):
