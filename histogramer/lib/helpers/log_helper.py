@@ -2,6 +2,8 @@
 Helps to work with console & file logger.
 """
 import logging
+import os
+import shutil
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
@@ -27,12 +29,16 @@ def init_logger(folder_name, path):
 
     if path != "0":
         path = "{0}/{1}/".format(path, folder_name)
+        file_name = "{0}.histogramer".format(path)
+        if os.path.isdir(path) and Path(file_name).stat().st_size >= 10485760:
+            # remove logs if they exist and log file size > 10 mb
+            shutil.rmtree(path, ignore_errors=True)
+        # create folder for file logs if not exists
         Path(path).mkdir(parents=True, exist_ok=True)
-        max_size = 2 * 1024 * 1024  # 2 mb
+
         rotating_file_handler = RotatingFileHandler(
-            filename="{0}.histogramer".format(path),
-            maxBytes=max_size,
-            backupCount=4)
+            filename=file_name,
+            backupCount=0)
         rotating_file_handler.setFormatter(fmt=log_formatter)
         rotating_file_handler.setLevel(level=logging.INFO)
         logger.addHandler(hdlr=rotating_file_handler)
