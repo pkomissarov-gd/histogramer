@@ -28,8 +28,8 @@ def init_logger(folder_name, path):
     logger.addHandler(hdlr=console_handler)
 
     if path != "0":
-        path = "{0}/{1}/".format(path, folder_name)
-        file_name = "{0}.histogramer".format(path)
+        path = f"{path}/{folder_name}/"
+        file_name = f"{path}.histogramer"
         if os.path.isdir(file_name) and \
                 Path(file_name).stat().st_size >= 10 * (1024 ** 2):  # 10 mb
             # remove logs if they exist and log file size > 10 mb

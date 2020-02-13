@@ -1,10 +1,10 @@
 """
 Implementation of main functions for histogram building.
 """
-import asyncio
 import logging
 import sys
 from datetime import datetime
+from multiprocessing import Pool
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -17,23 +17,16 @@ from histogramer.lib.helpers.datetime_helper import (
 )
 
 
-async def _count_words(file, spinner):
+def _count_words(file):
     """
     Count words number in the file.
     :param file: Path to the file which will be processed.
-    :param spinner: Console spinner for processed files count showing.
     :return: Words count in the current file.
     """
     try:
-        words_count = len(file.read_text().split())
-        logging.info("[%s] Successfully processed '%s'",
-                     datetime_to_str(datetime_obj=datetime.utcnow()), file)
-        return words_count
+        return len(file.read_text().split())
     except (IOError, UnicodeDecodeError) as exception:
-        logging.warning("Can't read '%s'. Error: %s", file, exception)
-    finally:
-        spinner.text = "{0} files processed".format(len(
-            [task for task in asyncio.Task.all_tasks() if task.done()]) + 1)
+        return f"Can't read '{file}'. Error: {exception}"
 
 
 def process_data(extension, path):
@@ -48,18 +41,23 @@ def process_data(extension, path):
     """
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
-        loop = asyncio.get_event_loop()
-        tasks = [loop.create_task(_count_words(file, spinner))
-                 for file in Path(path).rglob(extension)]
-        words_count = loop.run_until_complete(asyncio.gather(*tasks))
-        loop.close()
+        with Pool() as pool:
+            results = []
+            for result in pool.imap_unordered(_count_words,
+                                              (file for file
+                                               in Path(path).rglob(extension))):
+                results.append(result)
+                spinner.text = f"{len(results)} files processed"
+            pool.close()
+            pool.join()
+        # Log errors in log file
+        for message in (item for item in results if isinstance(item, str)):
+            logging.warning(message)
         end_time = datetime.utcnow()
-        spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
-                        + "{0} files ".format(len(words_count))
-                        + "successfully processed for"
-                        + " {0} ".format(get_duration(start_time, end_time))
-                        + "seconds.")
-        return words_count
+        spinner.succeed(f"[{datetime_to_str(end_time)}] "
+                        + f"{len(results)} files successfully processed for "
+                        + f"{get_duration(start_time, end_time)} seconds.")
+        return [item for item in results if isinstance(item, int)]
 
 
 def build_histogram(words_count):
@@ -74,8 +72,7 @@ def build_histogram(words_count):
         sys.exit()
 
     start_time = datetime.utcnow()
-    message = "[{0}] ".format(datetime_to_str(start_time)) \
-              + "Building histogram..."
+    message = f"[{datetime_to_str(start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
         plt.figure("histogramer",
                    dpi=100,
@@ -90,13 +87,11 @@ def build_histogram(words_count):
         plt.grid(alpha=0.1, which="both", linestyle="--")
         plt.grid(alpha=0.08, which="minor", linestyle="-.")
         plt.xticks(rotation=45)
-        plt.yscale(value="log")
         plt.tight_layout()
 
         end_time = datetime.utcnow()
-        spinner.succeed("[{0}] ".format(datetime_to_str(end_time))
+        spinner.succeed(f"[{datetime_to_str(end_time)}] "
                         + "Histogram successfully built for "
-                        "{0} ".format(get_duration(start_time, end_time))
-                        + "seconds.")
+                        + f"{get_duration(start_time, end_time)} seconds.")
         logging.info(msg="Histogram successfully built")
         plt.show()
