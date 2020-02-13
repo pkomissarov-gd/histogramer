@@ -1,5 +1,5 @@
 """
-helps to work with argument parser
+Helps to work with argument parser.
 """
 import argparse
 import os
@@ -7,9 +7,9 @@ import os
 
 def dir_type(path):
     """
-    validate that directory exists
-    :param path: directory which should exists
-    :return: path or NotADirectoryError if directory not exists
+    Validate that directory exists.
+    :param path: Directory which should exists.
+    :return: Path or NotADirectoryError if directory not exists.
     """
     if os.path.isdir(path) or path == "0":
         return path
@@ -18,9 +18,9 @@ def dir_type(path):
 
 def get_arguments(raw_args=None):
     """
-    parse arguments
-    :param raw_args: arguments for arg parser
-    :return: parsed arguments
+    Parse arguments.
+    :param raw_args: Arguments for arg parser.
+    :return: Parsed arguments.
     """
     parser = argparse.ArgumentParser(description="please, provide root path"
                                                  " in which (and it's sub "
