@@ -11,12 +11,10 @@ from sources.lib.helpers.random_helper import get_random_string
 
 
 # TODO: add to script 'pytest -k test -m "not skip and not unparallelizable"
-#  --workers auto --tests-per-worker auto --reruns 0 --reruns-delay 0
-#  --instafail ./sources/tests'
-
-# TODO: add to script 'pytest -k test -m "not skip and unparallelizable"
-#  --workers 1 --tests-per-worker 1 --reruns 0 --reruns-delay 0
-#  --instafail ./sources/tests'
+#  --workers auto --tests-per-worker auto --reruns 1 --reruns-delay 0
+#  --instafail ./sources/tests',
+# 'pytest -k test -m "not skip and unparallelizable" --workers 1
+# --tests-per-worker 1 --reruns 1 --reruns-delay 0 --instafail ./sources/tests'
 
 
 @pytest.mark.args_helper
