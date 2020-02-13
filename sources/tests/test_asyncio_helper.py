@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from histogramer.lib.helpers.asyncio_helper import sleep
+from sources.lib.helpers.asyncio_helper import sleep
 
 
 @pytest.mark.asyncio_helper

@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn
 from halo import Halo
 
-from histogramer.lib.helpers.datetime_helper import (
+from sources.lib.helpers.datetime_helper import (
     datetime_to_str,
     get_duration
 )
@@ -21,7 +21,7 @@ def _count_words(file):
     """
     Count words number in the file.
     :param file: Path to the file which will be processed.
-    :return: Words count in the current file.
+    :return: Words count in the current file or error message.
     """
     try:
         return len(file.read_text().split())
@@ -48,8 +48,6 @@ def process_data(extension, path):
                                                in Path(path).rglob(extension))):
                 results.append(result)
                 spinner.text = f"{len(results)} files processed"
-            pool.close()
-            pool.join()
         # Log errors in log file
         for message in (item for item in results if isinstance(item, str)):
             logging.warning(message)
@@ -74,8 +72,8 @@ def build_histogram(words_count):
     start_time = datetime.utcnow()
     message = f"[{datetime_to_str(start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
-        plt.figure("histogramer",
-                   dpi=100,
+        plt.figure("sources",
+                   dpi=75,
                    facecolor=(0, 0, 0),
                    figsize=(16, 10))
         plt.style.use(style="dark_background")

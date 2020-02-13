@@ -6,17 +6,17 @@ import sys
 
 import pytest
 
-from histogramer.lib.helpers.args_helper import dir_type, get_arguments
-from histogramer.lib.helpers.random_helper import get_random_string
+from sources.lib.helpers.args_helper import dir_type, get_arguments
+from sources.lib.helpers.random_helper import get_random_string
 
 
 # TODO: add to script 'pytest -k test -m "not skip and not unparallelizable"
 #  --workers auto --tests-per-worker auto --reruns 0 --reruns-delay 0
-#  --instafail ./histogramer/tests'
+#  --instafail ./sources/tests'
 
 # TODO: add to script 'pytest -k test -m "not skip and unparallelizable"
 #  --workers 1 --tests-per-worker 1 --reruns 0 --reruns-delay 0
-#  --instafail ./histogramer/tests'
+#  --instafail ./sources/tests'
 
 
 @pytest.mark.args_helper

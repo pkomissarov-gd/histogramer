@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from histogramer.lib.helpers.datetime_helper import (datetime_to_str,
-                                                     get_duration)
+from sources.lib.helpers.datetime_helper import (datetime_to_str,
+                                                 get_duration)
 
 
 @pytest.mark.datetime_helper
