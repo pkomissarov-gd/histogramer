@@ -63,6 +63,7 @@ async def test_get_arguments_invalid_log():
 
 
 @pytest.mark.args_helper
+@pytest.mark.serial
 @pytest.mark.asyncio
 async def test_get_arguments_no_arguments():
     """
