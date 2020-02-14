@@ -8,7 +8,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 
-def init_logger(folder_name, root_path):
+async def init_logger(folder_name, root_path):
     """
     Configure logger for logging events in console (and in a file, optional).
     :param folder_name: Name of the folder where logs will be stored.

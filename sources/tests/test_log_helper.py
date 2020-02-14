@@ -11,7 +11,7 @@ from sources.lib.helpers.log_helper import init_logger
 from sources.lib.helpers.random_helper import get_random_string
 
 
-def remove_dirs_tree(path):
+async def remove_dirs_tree(path):
     """
     Remove directory and it's sub folders and all files
     if a directory with such path exists.
@@ -23,17 +23,18 @@ def remove_dirs_tree(path):
 
 
 @pytest.mark.log_helper
-def test_init_logger_positive():
+@pytest.mark.asyncio
+async def test_init_logger_positive():
     """
     Invoke init_logger function with valid arguments.
     :return: None
     """
     folder_name = ".test_init_logger_positive"
-    root_path = f"{os.getcwd()}/{get_random_string()}"
+    root_path = f"{os.getcwd()}/{await get_random_string()}"
 
     try:
-        remove_dirs_tree(root_path)
-        init_logger(folder_name, root_path)
+        await remove_dirs_tree(root_path)
+        await init_logger(folder_name, root_path)
         logging.info("test_init_logger_positive")
         full_path = f"{root_path}/{folder_name}/"
         with open(f"{full_path}.histogramer") as file:
@@ -41,11 +42,12 @@ def test_init_logger_positive():
             assert len(lines) == 1
             assert "[INFO] test_init_logger_positive" in lines[0]
     finally:
-        remove_dirs_tree(root_path)
+        await remove_dirs_tree(root_path)
 
 
 @pytest.mark.log_helper
-def test_init_logger_no_file_logging():
+@pytest.mark.asyncio
+async def test_init_logger_no_file_logging():
     """
     Invoke init_logger function with valid arguments where path == "0".
     :return: None
@@ -55,12 +57,12 @@ def test_init_logger_no_file_logging():
     full_path = f"{os.getcwd()}/{folder_name}/"
     full_path_2 = f"{root_path}/{folder_name}/"
     try:
-        remove_dirs_tree(full_path)
-        remove_dirs_tree(full_path_2)
-        init_logger(folder_name, root_path)
+        await remove_dirs_tree(full_path)
+        await remove_dirs_tree(full_path_2)
+        await init_logger(folder_name, root_path)
         logging.info("test_init_logger_positive_no_file_logging")
         assert not os.path.isdir(full_path)
         assert not os.path.isdir(full_path_2)
     finally:
-        remove_dirs_tree(full_path)
-        remove_dirs_tree(full_path_2)
+        await remove_dirs_tree(full_path)
+        await remove_dirs_tree(full_path_2)

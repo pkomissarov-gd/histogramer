@@ -8,7 +8,7 @@ This tool analyze text files in a directory (which was specified by user)
 and it's sub folders. Statistics by words count is gathering 
 for each text file was found. Then a histogram will be building 
 by this statistics.
- 
+  
  # Example #
 ![](images/histogram_example.png)
 
@@ -31,5 +31,13 @@ Please, report about any issues to an
 [issues page](https://github.com/pkomissarov91/histogramer/issues/new/choose)
 with `~/.logs` folder's files attached.
 
+# Testing #
+For run all tests, please, use `pytest ./sources/tests` from project root.
+Pytest options are specified in `./sources/tests/pytest.ini` file.
+
 # Usage #
 Run a `python -m histogramer --help` script.
+ 
+# Virtual environment #
+For main usage `requirements_main.txt` should be installed.
+For testing: `requirements_tests.txt`.

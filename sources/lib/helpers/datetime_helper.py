@@ -4,7 +4,7 @@ Helps to work with datetime objects.
 from datetime import timedelta
 
 
-def datetime_to_str(datetime_obj):
+async def datetime_to_str(datetime_obj):
     """
     Convert datetime object to formatted string.
     :param datetime_obj: Datetime object.
@@ -13,7 +13,7 @@ def datetime_to_str(datetime_obj):
     return datetime_obj.isoformat(sep=" ", timespec="milliseconds")
 
 
-def get_duration(start, end):
+async def get_duration(start, end):
     """
     Get event duration.
     :param start: Datetime when an event started.

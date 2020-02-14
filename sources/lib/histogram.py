@@ -29,7 +29,7 @@ def _count_words(file):
         return f"Can't read '{file}'. Error: {exception}"
 
 
-def process_data(extension, path):
+async def process_data(extension, path):
     """
     Calculate words count for each file (with specified extension) in that dir
     and it's sub folders.
@@ -42,23 +42,24 @@ def process_data(extension, path):
     with Halo("Processing data...") as spinner:
         start_time = datetime.utcnow()
         with Pool() as pool:
-            results = []
+            words_count = []
             for result in pool.imap_unordered(_count_words,
                                               (file for file
                                                in Path(path).rglob(extension))):
-                results.append(result)
-                spinner.text = f"{len(results)} files processed"
-        # Log errors in log file
-        for message in (item for item in results if isinstance(item, str)):
-            logging.warning(message)
+                if isinstance(result, str):
+                    logging.warning(result)
+                else:
+                    words_count.append(result)
+                spinner.text = f"{len(words_count)} files processed"
         end_time = datetime.utcnow()
-        spinner.succeed(f"[{datetime_to_str(end_time)}] "
-                        + f"{len(results)} files successfully processed for "
-                        + f"{get_duration(start_time, end_time)} seconds.")
-        return [item for item in results if isinstance(item, int)]
+        spinner.succeed(f"[{await datetime_to_str(end_time)}] "
+                        + f"{len(words_count)} files successfully processed for"
+                        + f" {await get_duration(start_time, end_time)} "
+                          "seconds.")
+        return words_count
 
 
-def build_histogram(words_count):
+async def build_histogram(words_count):
     """
     Build a histogram using words count by text files.
     :param words_count: List of numbers where each number equals words count
@@ -70,7 +71,7 @@ def build_histogram(words_count):
         sys.exit()
 
     start_time = datetime.utcnow()
-    message = f"[{datetime_to_str(start_time)}] Building histogram..."
+    message = f"[{await datetime_to_str(start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
         plt.figure("sources",
                    dpi=75,
@@ -88,8 +89,9 @@ def build_histogram(words_count):
         plt.tight_layout()
 
         end_time = datetime.utcnow()
-        spinner.succeed(f"[{datetime_to_str(end_time)}] "
+        spinner.succeed(f"[{await datetime_to_str(end_time)}] "
                         + "Histogram successfully built for "
-                        + f"{get_duration(start_time, end_time)} seconds.")
+                        + f"{await get_duration(start_time, end_time)} "
+                          "seconds.")
         logging.info(msg="Histogram successfully built")
         plt.show()

@@ -16,7 +16,7 @@ def dir_type(path):
     raise NotADirectoryError(f"directory '{path}' not exists")
 
 
-def get_arguments(raw_args=None):
+async def get_arguments(raw_args=None):
     """
     Parse arguments.
     :param raw_args: Arguments for arg parser.
