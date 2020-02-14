@@ -1,7 +1,6 @@
 """
 Implementation of main functions for histogram building.
 """
-import logging
 import sys
 from datetime import datetime
 from multiprocessing import Pool
@@ -29,11 +28,12 @@ def _count_words(file):
         return f"Can't read '{file}'. Error: {exception}"
 
 
-async def process_data(extension, path):
+async def process_data(extension, logger, path):
     """
     Calculate words count for each file (with specified extension) in that dir
     and it's sub folders.
     :param extension: Only files with such extension will be processed.
+    :param logger: Logger with stream and rotating file handlers.
     :param path: Root directory in which (and it's sub folders) files will
     be processed.
     :return: List of numbers where each number equals words count
@@ -47,7 +47,7 @@ async def process_data(extension, path):
                                               (file for file
                                                in Path(path).rglob(extension))):
                 if isinstance(result, str):
-                    logging.warning(result)
+                    logger.warning(result)
                 else:
                     words_count.append(result)
                 spinner.text = f"{len(words_count)} files processed"
@@ -59,15 +59,16 @@ async def process_data(extension, path):
         return words_count
 
 
-async def build_histogram(words_count):
+async def build_histogram(logger, words_count):
     """
     Build a histogram using words count by text files.
+    :param logger: Logger with stream and rotating file handlers.
     :param words_count: List of numbers where each number equals words count
     in the file.
     :return: None.
     """
     if not words_count:
-        logging.warning("there is no data for a histogram building")
+        logger.warning("there is no data for a histogram building")
         sys.exit()
 
     start_time = datetime.utcnow()
@@ -93,5 +94,5 @@ async def build_histogram(words_count):
                         + "Histogram successfully built for "
                         + f"{await get_duration(start_time, end_time)} "
                           "seconds.")
-        logging.info(msg="Histogram successfully built")
+        logger.info(msg="Histogram successfully built")
         plt.show()

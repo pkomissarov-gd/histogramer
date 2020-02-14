@@ -14,9 +14,9 @@ async def main():
     :return: None
     """
     arguments = await get_arguments()
-    await init_logger(folder_name=".logs", root_path=arguments.log)
-    words_count = await process_data(extension="*.txt", path=arguments.path)
-    await build_histogram(words_count)
+    logger = await init_logger(folder_name=".logs", root_path=arguments.log)
+    words_count = await process_data("*.txt", logger, arguments.path)
+    await build_histogram(logger, words_count)
 
 
 if __name__ == "__main__":

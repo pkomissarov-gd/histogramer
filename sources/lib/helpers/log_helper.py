@@ -13,7 +13,7 @@ async def init_logger(folder_name, root_path):
     Configure logger for logging events in console (and in a file, optional).
     :param folder_name: Name of the folder where logs will be stored.
     :param root_path: Path to the log folder.
-    :return: None.
+    :return: Logger with stream and rotating file handlers.
     """
     log_formatter = logging.Formatter("[%(asctime)s] "
                                       "[%(threadName)s] "
@@ -41,3 +41,4 @@ async def init_logger(folder_name, root_path):
         rotating_file_handler.setFormatter(fmt=log_formatter)
         rotating_file_handler.setLevel(level=logging.INFO)
         logger.addHandler(hdlr=rotating_file_handler)
+    return logger
