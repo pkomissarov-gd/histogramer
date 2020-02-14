@@ -28,10 +28,10 @@ async def init_logger(folder_name, root_path):
     logger.addHandler(hdlr=console_handler)
 
     if root_path != "0":
-        path = f"{root_path}/{folder_name}/"
-        file_name = f"{path}.histogramer"
+        path = os.path.join(root_path, folder_name)
+        file_name = os.path.join(path, ".histogramer")
         if os.path.isdir(file_name) and \
-                Path(file_name).stat().st_size >= 10 * (1024 ** 2):  # 10 mb
+                Path(file_name).stat().st_size >= 5 * (1024 ** 2):  # 5 mb
             # remove logs if they exist and log file size > 10 mb
             shutil.rmtree(path, ignore_errors=True)
         # create folder for file logs if not exists

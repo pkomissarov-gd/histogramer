@@ -30,14 +30,14 @@ async def test_init_logger_positive():
     :return: None
     """
     folder_name = ".test_init_logger_positive"
-    root_path = f"{os.getcwd()}/{await get_random_string()}"
+    root_path = os.path.join(os.getcwd(), await get_random_string())
 
     try:
         await remove_dirs_tree(root_path)
         await init_logger(folder_name, root_path)
         logging.info("test_init_logger_positive")
-        full_path = f"{root_path}/{folder_name}/"
-        with open(f"{full_path}.histogramer") as file:
+        full_path = os.path.join(root_path, folder_name)
+        with open(os.path.join(full_path, ".histogramer")) as file:
             lines = file.readlines()
             assert len(lines) == 1
             assert "[INFO] test_init_logger_positive" in lines[0]
@@ -54,8 +54,8 @@ async def test_init_logger_no_file_logging():
     """
     folder_name = ".test_init_logger_no_file_logging"
     root_path = "0"
-    full_path = f"{os.getcwd()}/{folder_name}/"
-    full_path_2 = f"{root_path}/{folder_name}/"
+    full_path = os.path.join(os.getcwd(), folder_name)
+    full_path_2 = os.path.join(root_path, folder_name)
     try:
         await remove_dirs_tree(full_path)
         await remove_dirs_tree(full_path_2)
