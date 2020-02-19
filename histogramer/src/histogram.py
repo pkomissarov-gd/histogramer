@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn
 from halo import Halo
 
-from sources.lib.helpers.datetime_helper import (
+from histogramer.src.helpers.datetime_helper import (
     datetime_to_str,
     get_duration
 )
@@ -74,7 +74,7 @@ async def build_histogram(logger, words_count):
     start_time = datetime.utcnow()
     message = f"[{await datetime_to_str(start_time)}] Building histogram..."
     with Halo(text=message) as spinner:
-        plt.figure("sources",
+        plt.figure("histogramer",
                    dpi=75,
                    facecolor=(0, 0, 0),
                    figsize=(16, 10))

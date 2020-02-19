@@ -3,7 +3,7 @@ Tests for random_helper.
 """
 import pytest
 
-from sources.lib.helpers.random_helper import get_random_string
+from histogramer.src.helpers.random_helper import get_random_string
 
 
 @pytest.mark.random_helper

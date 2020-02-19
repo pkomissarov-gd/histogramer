@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from sources.lib.helpers.datetime_helper import (datetime_to_str,
-                                                 get_duration)
+from histogramer.src.helpers.datetime_helper import (datetime_to_str,
+                                                     get_duration)
 
 _DATETIME_STR = "2020-02-14 12:44:21.625037"
 

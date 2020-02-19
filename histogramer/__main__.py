@@ -1,11 +1,11 @@
 """
-Run sources.
+Run histogramer.
 """
 import asyncio
 
-from sources.lib.helpers.args_helper import get_arguments
-from sources.lib.helpers.log_helper import init_logger
-from sources.lib.histogram import (build_histogram, process_data)
+from histogramer.src.helpers.args_helper import get_arguments
+from histogramer.src.helpers.log_helper import init_logger
+from histogramer.src.histogram import (build_histogram, process_data)
 
 
 async def main():

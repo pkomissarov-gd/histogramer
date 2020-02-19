@@ -6,8 +6,8 @@ import sys
 
 import pytest
 
-from sources.lib.helpers.args_helper import dir_type, get_arguments
-from sources.lib.helpers.random_helper import get_random_string
+from histogramer.src.helpers.args_helper import dir_type, get_arguments
+from histogramer.src.helpers.random_helper import get_random_string
 
 
 @pytest.mark.args_helper

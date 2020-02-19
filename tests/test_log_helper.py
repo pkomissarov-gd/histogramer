@@ -6,8 +6,8 @@ import shutil
 
 import pytest
 
-from sources.lib.helpers.log_helper import init_logger
-from sources.lib.helpers.random_helper import get_random_string
+from histogramer.src.helpers.log_helper import init_logger
+from histogramer.src.helpers.random_helper import get_random_string
 
 
 async def remove_dirs_tree(logger, path):

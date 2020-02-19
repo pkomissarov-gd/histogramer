@@ -19,7 +19,7 @@ by this statistics.
    * Install histogramer: `pip3 install --upgrade path_to_wheel.whl`
 
 * #### Using sources: ####
-   * Remove dist files from a project root:
+   * Remove dist files from `./histogramer` folder:
       * Windows: `RMDIR /Q/S build dist histogramer.egg-info`
       * Mac: `rm -r build dist histogramer.egg-info`
    * Install wheel: `pip3 install wheel`
@@ -32,12 +32,12 @@ Please, report about any issues to an
 with `~/.logs` folder's files attached.
 
 # Testing #
-For run all tests, please, use `pytest ./sources/tests` from project root.
-Pytest options are specified in `./sources/tests/pytest.ini` file.
+For run all tests, please, use `pytest ./tests` from project root.
+Pytest options are specified in `./tests/pytest.ini` file.
 
 # Usage #
 Run a `python -m histogramer --help` script.
  
 # Virtual environment #
-For main usage `requirements_main.txt` should be installed.
-For testing: `requirements_tests.txt`.
+For main usage `./histogramer/requirements_main.txt` should be installed.
+For testing: `./histogramer/requirements_tests.txt`.
