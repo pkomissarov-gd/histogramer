@@ -28,7 +28,6 @@ async def get_arguments(raw_args=None):
                                                  "will be processed for "
                                                  "histogram building")
     parser.add_argument("-p",
-                        metavar="--path",
                         action="store",
                         default="",
                         dest="path",
@@ -37,7 +36,6 @@ async def get_arguments(raw_args=None):
                         required=True,
                         type=dir_type)
     parser.add_argument("-l",
-                        metavar="--log",
                         action="store",
                         default=os.getcwd(),
                         dest="log",
