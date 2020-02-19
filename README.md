@@ -19,7 +19,7 @@ by this statistics.
    * Install histogramer: `pip3 install --upgrade path_to_wheel.whl`
 
 * #### Using sources: ####
-   * Remove dist files from project root folder:
+   * Remove dist files from project root:
       * Windows: `RMDIR /Q/S build dist histogramer.egg-info`
       * Mac: `rm -r build dist histogramer.egg-info`
    * Install wheel: `pip3 install wheel`
@@ -32,7 +32,7 @@ Please, report about any issues to an
 with `~/.logs` folder's files attached.
 
 # Testing #
-For run all tests, please, use `pytest ./tests` from project root folder.
+For run all tests, please, use `pytest ./tests` from project root.
 Pytest options are specified in `~/tests/pytest.ini` file.
 
 # Usage #
