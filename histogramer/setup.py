@@ -15,7 +15,7 @@ def read_file(file_name):
 
 
 setuptools.setup(
-    name="Histogramer",
+    name="histogramer",
     version="1.0.6",
     author="Petr Komissarov",
     author_email="pkomissarov@griddynamics.com",
