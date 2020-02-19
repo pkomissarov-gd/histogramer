@@ -81,7 +81,7 @@ async def build_histogram(logger, words_count):
         plt.style.use(style="dark_background")
         plt.xlabel(xlabel="Words Count")
         plt.ylabel(ylabel="Files Count")
-        plt.title(label="Bar Chart for Files Words Count", fontsize=22)
+        plt.title(label="Bar Chart for Words Count in Files", fontsize=22)
         seaborn.set()
         seaborn.distplot(a=words_count, kde=False)
         plt.grid(alpha=0.1, which="both", linestyle="--")
