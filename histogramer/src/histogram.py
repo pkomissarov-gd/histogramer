@@ -44,8 +44,7 @@ async def process_data(extension, logger, path):
         with Pool() as pool:
             words_count = []
             for result in pool.imap_unordered(_count_words,
-                                              (file for file
-                                               in Path(path).rglob(extension))):
+                                              Path(path).rglob(extension)):
                 if isinstance(result, str):
                     logger.warning(result)
                 else:
