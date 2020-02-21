@@ -16,6 +16,16 @@ from histogramer.src.helpers.datetime_helper import (
 )
 
 
+def _exit_if_empty_data(logger):
+    """
+    Write log message and exit from application.
+    :param logger: Instance of logger.
+    :return: None
+    """
+    logger.warning("there is no data for a histogram building")
+    sys.exit()
+
+
 def _count_words(file):
     """
     Count words number in the file.
@@ -33,7 +43,7 @@ async def process_data(extension, logger, path):
     Calculate words count for each file (with specified extension) in that dir
     and it's sub folders.
     :param extension: Only files with such extension will be processed.
-    :param logger: Logger with stream and rotating file handlers.
+    :param logger: Instance of logger.
     :param path: Root directory in which (and it's sub folders) files will
     be processed.
     :return: List of numbers where each number equals words count
@@ -45,10 +55,9 @@ async def process_data(extension, logger, path):
             words_count = []
             for result in pool.imap_unordered(_count_words,
                                               Path(path).rglob(extension)):
-                if isinstance(result, str):
-                    logger.warning(result)
-                else:
-                    words_count.append(result)
+                {True: lambda r=result: logger.warning(r),
+                 False: lambda r=result: words_count.append(r)
+                 }[isinstance(result, str)]()
                 spinner.text = f"{len(words_count)} files processed"
         end_time = datetime.utcnow()
         spinner.succeed(f"[{await datetime_to_str(end_time)}] "
@@ -61,14 +70,13 @@ async def process_data(extension, logger, path):
 async def build_histogram(logger, words_count):
     """
     Build a histogram using words count by text files.
-    :param logger: Logger with stream and rotating file handlers.
+    :param logger: Instance of logger.
     :param words_count: List of numbers where each number equals words count
     in the file.
     :return: None.
     """
-    if not words_count:
-        logger.warning("there is no data for a histogram building")
-        sys.exit()
+    {True: lambda: _exit_if_empty_data(logger)}.get(
+        len(words_count) == 0, lambda: None)()
 
     start_time = datetime.utcnow()
     message = f"[{await datetime_to_str(start_time)}] Building histogram..."

@@ -5,7 +5,7 @@ import asyncio
 
 from histogramer.src.helpers.args_helper import get_arguments
 from histogramer.src.helpers.log_helper import init_logger
-from histogramer.src.histogram import (build_histogram, process_data)
+from histogramer.src.histogram import build_histogram, process_data
 
 
 async def main():
@@ -19,5 +19,4 @@ async def main():
     await build_histogram(logger, words_count)
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+{"__main__": lambda: asyncio.run(main())}.get(__name__, lambda: None)()

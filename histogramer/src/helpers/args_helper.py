@@ -5,15 +5,24 @@ import argparse
 import os
 
 
-def dir_type(path):
+def __raise_error(path):
+    """
+    Raise NotADirectoryError.
+    :param path: Directory which should exists.
+    :return: None.
+    """
+    raise NotADirectoryError(f"directory '{path}' not exists")
+
+
+def get_dir_type(path):
     """
     Validate that directory exists.
     :param path: Directory which should exists.
     :return: Path or NotADirectoryError if directory not exists.
     """
-    if os.path.isdir(path) or path == "0":
-        return path
-    raise NotADirectoryError(f"directory '{path}' not exists")
+    {False: lambda: __raise_error(path)}.get(
+        os.path.isdir(path) or path == "0", lambda: None)()
+    return path
 
 
 async def get_arguments(raw_args=None):
@@ -34,7 +43,7 @@ async def get_arguments(raw_args=None):
                         help="root path in which (and it's sub "
                              "folders) text files will be processed",
                         required=True,
-                        type=dir_type)
+                        type=get_dir_type)
     parser.add_argument("-l",
                         action="store",
                         default=os.getcwd(),
@@ -43,5 +52,5 @@ async def get_arguments(raw_args=None):
                              "if you don't want to store them. "
                              "Default value: ~/.logs/",
                         required=False,
-                        type=dir_type)
+                        type=get_dir_type)
     return parser.parse_args(raw_args)

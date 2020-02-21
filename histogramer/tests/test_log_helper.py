@@ -10,19 +10,28 @@ from histogramer.src.helpers.log_helper import init_logger
 from histogramer.src.helpers.random_helper import get_random_string
 
 
-async def remove_dirs_tree(logger, path):
+def __close_logger_handlers(logger):
     """
-    Remove directory and it's sub folders and all files
+    Close all logger handlers.
+    :param logger: Instance of logger.
+    :return: None.
+    """
+    for handler in logger.handlers:
+        handler.close()
+
+
+async def _remove_dirs_tree(logger, path):
+    """
+    Remove directory and it's sub folders.
     if a directory with such path exists.
-    :param logger: Logger with stream and rotating file handlers.
+    :param logger: Instance of logger.
     :param path: Root directory.
     :return: None.
     """
-    if logger:
-        for handler in logger.handlers:
-            handler.close()
-    if os.path.isdir(path):
-        shutil.rmtree(path, ignore_errors=True)
+    {True: lambda: __close_logger_handlers(logger)}.get(
+        logger is not None, lambda: None)()
+    {True: lambda: shutil.rmtree(path, ignore_errors=True)}.get(
+        os.path.isdir(path), lambda: None)()
 
 
 @pytest.mark.log_helper
@@ -45,7 +54,7 @@ async def test_init_logger_positive():
             assert len(lines) == 1
             assert "[INFO] test_init_logger_positive" in lines[0]
     finally:
-        await remove_dirs_tree(logger, root_path)
+        await _remove_dirs_tree(logger, root_path)
 
 
 @pytest.mark.log_helper
@@ -67,5 +76,5 @@ async def test_init_logger_no_file_logging():
         assert not os.path.isdir(full_path)
         assert not os.path.isdir(full_path_2)
     finally:
-        await remove_dirs_tree(logger, full_path)
-        await remove_dirs_tree(logger, full_path_2)
+        await _remove_dirs_tree(logger, full_path)
+        await _remove_dirs_tree(logger, full_path_2)

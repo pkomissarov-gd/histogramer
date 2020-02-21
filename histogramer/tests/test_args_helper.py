@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from histogramer.src.helpers.args_helper import dir_type, get_arguments
+from histogramer.src.helpers.args_helper import get_dir_type, get_arguments
 from histogramer.src.helpers.random_helper import get_random_string
 
 
@@ -87,7 +87,7 @@ async def test_dir_type_positive(path):
     :param path: Path to directory.
     :return: None.
     """
-    actual = dir_type(path)
+    actual = get_dir_type(path)
     assert isinstance(actual, str)
     assert actual == path
 
@@ -101,4 +101,4 @@ async def test_dir_type_negative():
     """
     path = await get_random_string()
     with pytest.raises(NotADirectoryError):
-        dir_type(path)
+        get_dir_type(path)
