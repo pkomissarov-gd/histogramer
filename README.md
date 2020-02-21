@@ -10,7 +10,7 @@ for each text file was found. Then a histogram will be building
 by this statistics.
   
  # Example #
-![](images/histogram_example.png)
+![](examples/histogram.png)
 
 # Installation #
 * #### Using a `*.whl` dist: ####
