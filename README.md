@@ -32,8 +32,8 @@ Please, report about any issues to an
 with `~/.logs` folder's files attached.
 
 # Testing #
-For run all tests, please, use `pytest ./tests` from project root.
-Pytest options are specified in `~/tests/pytest.ini` file.
+For run all tests, please, use `pytest ./histogramer/tests` from project root.
+Pytest options are placed in `~/histogramer/tests/pytest.ini` file.
 
 # Usage #
 Run a `python -m histogramer --help` script.
