@@ -2,10 +2,12 @@
   <dictionary name="pkomissarov">
     <words>
       <w>addopts</w>
+      <w>asctime</w>
       <w>asyncio</w>
       <w>histogramer</w>
       <w>histogrammer</w>
       <w>komissarov</w>
+      <w>levelname</w>
       <w>pytest</w>
     </words>
   </dictionary>
