@@ -63,7 +63,7 @@ async def test_init_logger_no_file_logging():
 
     try:
         logger = await init_logger(folder_name, root_path)
-        logger.info("test_init_logger_positive_no_file_logging")
+        logger.debug("test_init_logger_positive_no_file_logging")
         assert not os.path.isdir(full_path)
         assert not os.path.isdir(full_path_2)
     finally:
