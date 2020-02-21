@@ -68,10 +68,6 @@ async def test_get_duration_negative(start, end):
     :param end: Event end datetime.
     :return: None.
     """
-    if start == 0:
-        start = datetime.utcnow()
-    if end == 0:
-        end = datetime.utcnow()
     with pytest.raises(TypeError):
         await get_duration(start=start, end=end)
 
