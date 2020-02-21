@@ -26,7 +26,7 @@ setuptools.setup(
     install_requires=read_file("requirements_main.txt"),
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["*tests"]),
     python_requires=">=3.6, <3.8",
     tests_require=read_file("requirements_tests.txt"),
     url="https://github.com/pkomissarov-gd/histogramer")
