@@ -20,7 +20,7 @@ def _exit_if_empty_data(logger):
     """
     Write log message and exit from application.
     :param logger: Instance of logger.
-    :return: None
+    :return: None.
     """
     logger.warning("there is no data for a histogram building")
     sys.exit()
@@ -57,7 +57,7 @@ async def process_data(extension, logger, path):
                                               Path(path).rglob(extension)):
                 {True: lambda r=result: logger.warning(r),
                  False: lambda r=result: words_count.append(r)
-                 }[isinstance(result, str)]()
+                 }.get(isinstance(result, str), lambda: None)()
                 spinner.text = f"{len(words_count)} files processed"
         end_time = datetime.utcnow()
         spinner.succeed(f"[{await datetime_to_str(end_time)}] "
