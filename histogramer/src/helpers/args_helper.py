@@ -25,7 +25,7 @@ def get_dir_type(path):
     return path
 
 
-async def get_arguments(raw_args=None):
+async def parse_arguments(raw_args=None):
     """
     Parse arguments.
     :param raw_args: Arguments for arg parser.

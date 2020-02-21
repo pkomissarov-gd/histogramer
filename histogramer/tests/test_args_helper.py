@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from histogramer.src.helpers.args_helper import get_dir_type, get_arguments
+from histogramer.src.helpers.args_helper import get_dir_type, parse_arguments
 from histogramer.src.helpers.random_helper import get_random_string
 
 
@@ -18,7 +18,7 @@ async def test_get_arguments_valid_path():
     :return: None.
     """
     path = os.getcwd()
-    actual = await get_arguments(["-p", path])
+    actual = await parse_arguments(["-p", path])
     assert isinstance(actual.path, str)
     assert actual.path == path
 
@@ -31,7 +31,7 @@ async def test_get_arguments_valid_log():
     :return: None.
     """
     path = os.getcwd()
-    actual = await get_arguments(["-p", path, "-l", path])
+    actual = await parse_arguments(["-p", path, "-l", path])
     assert isinstance(actual.path, str)
     assert isinstance(actual.log, str)
     assert actual.log == path
@@ -47,7 +47,7 @@ async def test_get_arguments_invalid_path():
     """
     args = ["-p", await get_random_string()]
     with pytest.raises(NotADirectoryError):
-        await get_arguments(args)
+        await parse_arguments(args)
 
 
 @pytest.mark.args_helper
@@ -59,7 +59,7 @@ async def test_get_arguments_invalid_log():
     """
     args = ["-p", os.getcwd(), "-l", await get_random_string()]
     with pytest.raises(NotADirectoryError):
-        await get_arguments(args)
+        await parse_arguments(args)
 
 
 @pytest.mark.args_helper
@@ -73,7 +73,7 @@ async def test_get_arguments_no_arguments():
     try:
         sys.stderr = open(os.devnull, "w")
         with pytest.raises(SystemExit):
-            await get_arguments()
+            await parse_arguments()
     finally:
         sys.stderr = sys.__stderr__
 

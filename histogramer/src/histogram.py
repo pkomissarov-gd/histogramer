@@ -38,7 +38,7 @@ def _count_words(file):
         return f"Can't read '{file}'. Error: {exception}"
 
 
-async def process_data(extension, logger, path):
+async def process_text_files(extension, logger, path):
     """
     Calculate words count for each file (with specified extension) in that dir
     and it's sub folders.
@@ -49,7 +49,7 @@ async def process_data(extension, logger, path):
     :return: List of numbers where each number equals words count
     in the file.
     """
-    with Halo("Processing data...") as spinner:
+    with Halo("Processing text files...") as spinner:
         start_time = datetime.utcnow()
         with Pool() as pool:
             words_count = []
@@ -67,9 +67,9 @@ async def process_data(extension, logger, path):
         return words_count
 
 
-async def build_histogram(logger, words_count):
+async def show_histogram(logger, words_count):
     """
-    Build a histogram using words count by text files.
+    Show a histogram using words count by text files.
     :param logger: Instance of logger.
     :param words_count: List of numbers where each number equals words count
     in the file.
