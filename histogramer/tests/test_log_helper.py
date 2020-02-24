@@ -78,3 +78,19 @@ async def test_init_logger_no_file_logging():
     finally:
         await _remove_dirs_tree(logger, full_path)
         await _remove_dirs_tree(logger, full_path_2)
+
+
+@pytest.mark.log_helper
+@pytest.mark.asyncio
+@pytest.mark.parametrize("folder_name, root_path",
+                         [(None, os.getcwd()),
+                          (os.getcwd(), None),
+                          (None, None)])
+async def test_init_logger_negative(folder_name, root_path):
+    """
+    Invoke init_logger function with invalid arguments.
+    :return: None.
+    """
+    with pytest.raises(TypeError):
+        logger = await init_logger(folder_name, root_path)
+        await _remove_dirs_tree(logger, os.path.join(root_path, folder_name))
